@@ -21,7 +21,10 @@ namespace RestApi.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Employee>>> GetEmployee()
         {
-            return Ok(await _context.Employees.ToListAsync());
+            /*return Ok(await _context.Employees.ToListAsync());*/
+
+            //Applying StoredProcedure to get all Employee
+            return _context.Employees.FromSqlRaw($"getallemployees").ToList();
         }
 
 
