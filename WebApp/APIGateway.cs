@@ -11,9 +11,16 @@ namespace WebApp
     {
         private string url = "http://localhost:5272/api/Employee";
         private HttpClient httpClient = new HttpClient();
+        private readonly IConfiguration _configs;
+
+        public APIGateway (IConfiguration configs)
+        {
+            _configs = configs;
+        }
 
         public List<Employee> ListEmployees()
         {
+            httpClient.DefaultRequestHeaders.Add("ApiKey", _configs.GetValue<string>("ApiKey"));
             List<Employee> employees = new List<Employee>();
             if (url.Trim().Substring(0, 5).ToLower() == "https")
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
@@ -47,6 +54,7 @@ namespace WebApp
 
         public Employee CreateEmployee(Employee employee)
         {
+            httpClient.DefaultRequestHeaders.Add("ApiKey", "APIKEYTEST");
             if (url.Trim().Substring(0, 5).ToLower() == "https")
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
@@ -81,6 +89,7 @@ namespace WebApp
 
         public Employee GetEmployee (int id)
         {
+            httpClient.DefaultRequestHeaders.Add("ApiKey", _configs.GetValue<string>("ApiKey"));
             Employee employee = new Employee();
             url = url + "/" + id;
             if (url.Trim().Substring(0, 5).ToLower() == "https")
@@ -126,6 +135,7 @@ namespace WebApp
 
         public void UpdateEmployee (Employee employee)
         {
+            httpClient.DefaultRequestHeaders.Add("ApiKey", _configs.GetValue<string>("ApiKey"));
             if (url.Trim().Substring(0, 5).ToLower() == "https")
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
@@ -157,6 +167,7 @@ namespace WebApp
 
         public void DeleteEmployee (int id)
         {
+            httpClient.DefaultRequestHeaders.Add("ApiKey", _configs.GetValue<string>("ApiKey"));
             if (url.Trim().Substring(0, 5).ToLower() == "https")
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 

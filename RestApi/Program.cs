@@ -1,5 +1,6 @@
 using RestApi.Data;
 using Microsoft.EntityFrameworkCore;
+using RestApi.CustomMiddleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,6 +45,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors(MyAllowSpecificOrigins);
+
+app.UseMiddleware<ApiKeyAuthMiddleware>();
 
 app.UseAuthorization();
 
